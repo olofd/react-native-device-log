@@ -1,3 +1,21 @@
+#react-native-device-log
+
+A debug-view that prints your debug-messages in a neat listview.
+Supports different levels of log-messages, support complex data.
+Also has a built in timer for measuring performance.
+
+<a href="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif"><img src="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif" width="350"></a>
+
+
+#Install:
+```
+npm i react-native-device-log --save
+```
+
+
+#Awesome-project:
+
+```
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -61,3 +79,4 @@ var AwesomeProject = React.createClass({
 });
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+```
