@@ -1,6 +1,8 @@
 #react-native-device-log
 
-A debug-view that prints your debug-messages.
+A debug-view that prints your debug-messages in a neat listview.
+Supports different levels of log-messages, support complex data.
+Also has a built in timer for measuring performance.
 
 <a href="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif"><img src="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif" width="350"></a>
 
@@ -27,8 +29,11 @@ import deviceLog, {LogView} from 'react-native-device-log';
 
 //Call init and set a custom adapter that implements the interface of
 //AsyncStorage: getItem, removeItem, setItem.
-//By default the log uses a in-memory object, in this example is //explicitly set the log to use the persistant AsyncStorage insteed:
-deviceLog.init(AsyncStorage);
+//By default the log uses a in-memory object, in this example is //explicitly set the log to use the persistent AsyncStorage instead:
+deviceLog.init(AsyncStorage, { logToConsole : false }).then(() => {
+  //When the deviceLog has been initialized we can clear it if we want to:
+  //deviceLog.clear();
+});
 
 //The device-log contains a timer for measuring performance:
 deviceLog.startTimer('start-up');
@@ -46,30 +51,24 @@ var AwesomeProject = React.createClass({
     //Print the current time of the above timer:
     deviceLog.logTime('start-up');
 
-    //Avaliable log messages:
-    deviceLog.log("Hello world!");
+    //Available log messages:
+    deviceLog.log("Hello", "world!");
     deviceLog.info("A info message");
-    deviceLog.debug("A debug message");
-    deviceLog.error("A error message");
+    deviceLog.debug("A debug message", {test: "test"});
     deviceLog.success("A success message");
 
     //Print the current time of the above timer again:
     deviceLog.logTime('start-up');
+
+    setTimeout(() => {
+      deviceLog.error("I'm late!!");
+    }, 3000);
   },
 
   render: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <LogView></LogView>
       </View>
     );
   }
