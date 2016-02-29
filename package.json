@@ -1,6 +1,6 @@
 {
   "name": "react-native-device-log",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A GUI adn service for handling dev log messages on a device",
   "main": "index.js",
   "repository": {
