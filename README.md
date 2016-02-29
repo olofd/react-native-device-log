@@ -24,15 +24,20 @@ npm i react-native-device-log --save
 var React = require('react-native');
 
 //The device-log contains the public api that you will use in your app.
-//The LogView is the GUI/Log-list that you can render at desired location //in your app
+//The LogView is the GUI/Log-list that you can render at desired location //in your app:
+
 import deviceLog, {LogView} from 'react-native-device-log';
 
 //Call init and set a custom adapter that implements the interface of
 //AsyncStorage: getItem, removeItem, setItem.
-//By default the log uses a in-memory object, in this example is //explicitly set the log to use the persistent AsyncStorage instead:
+//By default the log uses a in-memory object, in this example we
+//explicitly set the log to use the persistent AsyncStorage instead:
+
 deviceLog.init(AsyncStorage, { logToConsole : false }).then(() => {
+
   //When the deviceLog has been initialized we can clear it if we want to:
   //deviceLog.clear();
+
 });
 
 //The device-log contains a timer for measuring performance:
