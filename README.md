@@ -1,27 +1,17 @@
-#react-native-device-log
-
-A debug-view that prints your debug-messages in a neat listview.
-Supports different levels of log-messages, support complex data.
-Also has a built in timer for measuring performance.
-
-<a href="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif"><img src="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif" width="350"></a>
-
-
-#Install:
-```
-npm i react-native-device-log --save
-```
-
-
-#Awesome-project:
-
-```
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
 'use strict';
 var React = require('react-native');
+
+var {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  AsyncStorage
+} = React;
 
 //The device-log contains the public api that you will use in your app.
 //The LogView is the GUI/Log-list that you can render at desired location //in your app:
@@ -42,13 +32,6 @@ deviceLog.init(AsyncStorage, { logToConsole : false }).then(() => {
 
 //The device-log contains a timer for measuring performance:
 deviceLog.startTimer('start-up');
-
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
 
 var AwesomeProject = React.createClass({
 
@@ -72,31 +55,9 @@ var AwesomeProject = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
-        <LogView></LogView>
-      </View>
+      <LogView></LogView>
     );
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
-```

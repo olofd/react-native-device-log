@@ -1,5 +1,4 @@
 import {AsyncStorage} from 'react-native';
-import BaseService from '../services/base-service';
 import moment from 'moment';
 import InMemory from './adapters/in-memory';
 import timers from './timers';
