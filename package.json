@@ -1,5 +1,11 @@
 {
   "name": "react-native-device-log",
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios",
+    "android"
+  ],
   "version": "0.0.5",
   "description": "A GUI adn service for handling dev log messages on a device",
   "main": "index.js",
@@ -14,7 +20,6 @@
   "license": "MIT",
   "dependencies": {
     "moment": "^2.11.2",
-    "debounce": "^1.0.0",
-    "react-native": "^0.20.0"
+    "debounce": "^1.0.0"
   }
 }
