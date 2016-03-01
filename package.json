@@ -6,7 +6,7 @@
     "ios",
     "android"
   ],
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A GUI adn service for handling dev log messages on a device",
   "main": "index.js",
   "repository": {
