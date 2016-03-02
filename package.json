@@ -7,7 +7,7 @@
     "android"
   ],
   "version": "0.0.6",
-  "description": "A GUI adn service for handling dev log messages on a device",
+  "description": "A GUI and service for handling development log messages on a device",
   "main": "index.js",
   "repository": {
     "type": "git",
