@@ -55,7 +55,7 @@ class DebugService {
   async _getFromStorage() {
     let dataAsString = await this.storage.getItem(DebugService.STORAGEKEY);
     if (!dataAsString) {
-      await this._saveLogData({rows: []});
+      await this._saveLogData({rows: []}, true);
       return this._getFromStorage();
     }
     let debugRowsDataStorage = JSON.parse(dataAsString);
@@ -65,8 +65,8 @@ class DebugService {
     return debugRowsDataStorage;
   }
 
-  async _saveLogData(logData) {
-    if (!this._initalGetIsResolved) {
+  async _saveLogData(logData, force) {
+    if (!this._initalGetIsResolved && !force) {
       return logData;
     }
     await this.storage.setItem(DebugService.STORAGEKEY, JSON.stringify(logData));
@@ -150,6 +150,9 @@ class DebugService {
 
   onDebugRowsChanged(cb) {
     this.listners.push(cb);
+    this._getFromStorage().then((data) => {
+      cb(data);
+    });
     return () => {
       var i = this.listners.indexOf(cb);
       if (i !== -1) {

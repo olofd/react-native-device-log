@@ -60,7 +60,7 @@ export default class Debug extends React.Component {
   }
 
   _formatTimeStamp(timeStamp) {
-    return timeStamp.format('HH:mm:ss:ms');
+    return timeStamp.format('HH:mm:ss');
   }
 
   _renderSeperator(data, animationStyle) {
