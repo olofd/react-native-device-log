@@ -1,4 +1,5 @@
-import React, {View, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import DebugListView from './debug-list-view.js';
 import debugService from './debug-service';
 import debounce from 'debounce';
