@@ -126,6 +126,7 @@ export default class Debug extends React.Component {
   }
 
   render() {
+    const {rows, ...props} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.toolBar}>
@@ -151,7 +152,8 @@ export default class Debug extends React.Component {
           <ListView
             ref={LISTVIEW_REF}
             dataSource={this.state.dataSource}
-            renderRow={this._renderRow.bind(this)}/>
+            renderRow={this._renderRow.bind(this)}
+            {...props} />
         </View>
       </View>
     );
