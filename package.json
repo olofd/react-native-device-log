@@ -19,6 +19,8 @@
   "author": "Olof Dahlbom",
   "license": "MIT",
   "dependencies": {
+    "json-stringify-safe": "^5.0.1",
+    "react-native-invertible-scroll-view": "^1.0.0",
     "moment": "^2.11.2",
     "debounce": "^1.0.0"
   }
