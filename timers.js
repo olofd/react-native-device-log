@@ -5,7 +5,7 @@ const timestamp = {
 };
 
 
-export default class Timers {
+export class Timers {
   constructor() {
     this.timers = {}
   }
