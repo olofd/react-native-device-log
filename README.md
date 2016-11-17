@@ -19,6 +19,10 @@ All built to be efficent and fast.
 
 #Install:
 ```
+npm install react-native-device-log --save
+```
+
+```
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
