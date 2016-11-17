@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: SECONDARY_COLOR,
-    paddingTop: 20
+    paddingTop: 5
   },
   toolBar: {
     backgroundColor: SECONDARY_COLOR,
