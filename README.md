@@ -21,15 +21,14 @@ npm i react-native-device-log --save
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-
-var {
+import React from 'react';
+import  {
   AppRegistry,
   StyleSheet,
   Text,
   View,
   AsyncStorage
-} = React;
+} from 'react-native';
 
 //The device-log contains the public api that you will use in your app.
 //The LogView is the GUI/Log-list that you can render at desired location //in your app:
@@ -41,7 +40,13 @@ import deviceLog, {LogView} from 'react-native-device-log';
 //By default the log uses a in-memory object, in this example we
 //explicitly set the log to use the persistent AsyncStorage instead:
 
-deviceLog.init(AsyncStorage, { logToConsole : false }).then(() => {
+deviceLog.init(AsyncStorage, {
+  //Options (all optional):
+  logToConsole : false, //Send logs to console as well as device-log
+  logRNErrors : true, // Will pick up RN-errors and send them to the device log
+  maxNumberToRender : 2000, // 0 or undefined == unlimited
+  maxNumberToPersist : 2000 // 0 or undefined == unlimited
+}).then(() => {
 
   //When the deviceLog has been initialized we can clear it if we want to:
   //deviceLog.clear();
@@ -72,8 +77,14 @@ var AwesomeProject = React.createClass({
   },
 
   render: function() {
+    /*
+    inverted: will write the log inverted.
+    multiExpanded: means that multiple logmessages
+    that are longer then one row can be expanded simultaneously
+    timeStampFormat: moment format for timeStamp
+    */
     return (
-      <LogView></LogView>
+      <LogView inverted={false} multiExpanded={true} timeStampFormat='HH:mm:ss'></LogView>
     );
   }
 });
