@@ -21,7 +21,7 @@ All built to be efficent and fast.
 ```
 npm install react-native-device-log --save
 ```
-
+#Example:
 ```
 /**
  * Sample React Native App
