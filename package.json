@@ -22,6 +22,7 @@
     "json-stringify-safe": "^5.0.1",
     "react-native-invertible-scroll-view": "^1.0.0",
     "moment": "^2.11.2",
-    "debounce": "^1.0.0"
+    "debounce": "^1.0.0",
+    "stacktrace-parser": "^0.1.4"
   }
 }
