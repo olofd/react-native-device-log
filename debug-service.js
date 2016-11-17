@@ -39,35 +39,29 @@ class DebugService {
     this._initalGetIsResolved = false;
     this._saveLogDataDebounced = debounce(this._saveLogData.bind(this), 150);
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
-    NetInfo.isConnected.addEventListener('change', this._handleConnectivityChange.bind(this));
     NetInfo.addEventListener('change', this._handleConnectivityTypeChange.bind(this));
   }
 
   _handleConnectivityTypeChange(type) {
-    if(this.previousConnectionTypes.indexOf(type) !== -1) {
-      this.seperator(`CONNECTION CHANGED TO ${type.toUpperCase()}`);
-    }else {
-      this.previousConnectionTypes.push(type);
+    if(this.connectionHasBeenEstablished) {
+      if(type === 'none') {
+        this.hasBeenDisconnected = true;
+        this.seperator(`DISCONNECTED FROM INTERNET`);
+      }else {
+        if(this.hasBeenDisconnected) {
+          this.seperator(`RECONNECTED TO INTERNET VIA: ${type.toUpperCase()}`);
+        }else {
+          this.seperator(`CONNECTION CHANGED TO ${type.toUpperCase()}`);
+        }
+      }
     }
+    this.connectionHasBeenEstablished = true;
   }
 
   _handleAppStateChange(currentAppState) {
     this.seperator(`APP STATE: ${currentAppState.toUpperCase()}`);
   }
 
-  _handleConnectivityChange(isConnected) {
-    if(isConnected) {
-      if(this.hasBeenDisconnected) {
-        this.seperator(`RECONNECTED TO INTERNET`);
-      }
-      this.hasBeenConnected = true;
-    }else {
-      if(this.hasBeenConnected) {
-        this.seperator(`DISCONNECTED TO INTERNET`);
-      }
-      this.hasBeenDisconnected = true;
-    }
-  }
 
   setupRNErrorLogging() {
     if (ErrorUtils) {
@@ -159,6 +153,11 @@ class DebugService {
 
     await this.storage.setItem(DebugService.STORAGEKEY, JSON.stringify(this.getSavableData(logData)));
     return logData;
+  }
+
+  stopTimer(name) {
+    timers.stop(name);
+    timers.remove(name);
   }
 
   async startTimer(name) {

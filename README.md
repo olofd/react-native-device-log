@@ -9,13 +9,6 @@ Also has a built in timer for measuring performance.
 
 #Install:
 ```
-npm i react-native-device-log --save
-```
-
-
-#Awesome-project:
-
-```
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -33,14 +26,15 @@ import  {
 //The device-log contains the public api that you will use in your app.
 //The LogView is the GUI/Log-list that you can render at desired location //in your app:
 
-import deviceLog, {LogView} from 'react-native-device-log';
+import deviceLog, {LogView, InMemoryAdapter} from 'react-native-device-log';
 
 //Call init and set a custom adapter that implements the interface of
 //AsyncStorage: getItem, removeItem, setItem.
 //By default the log uses a in-memory object, in this example we
 //explicitly set the log to use the persistent AsyncStorage instead:
 
-deviceLog.init(AsyncStorage, {
+deviceLog.init(AsyncStorage /* You can send new InMemoryAdapter() if you do not want to persist here*/
+,{
   //Options (all optional):
   logToConsole : false, //Send logs to console as well as device-log
   logRNErrors : true, // Will pick up RN-errors and send them to the device log
@@ -70,6 +64,10 @@ var AwesomeProject = React.createClass({
 
     //Print the current time of the above timer again:
     deviceLog.logTime('start-up');
+
+    //Later stop and remove the timer:
+    //Will not print anything.
+    deviceLog.stopTimer('start-up');
 
     setTimeout(() => {
       deviceLog.error("I'm late!!");
