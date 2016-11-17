@@ -203,7 +203,7 @@ class DebugService {
 
   rnerror(fatal, message, stackTrace) {
     let errorString = `ERROR: ${message}  \nSTACKSTRACE:\n`;
-    if (Array.isArray(stackTrace)) {
+    if (stackTrace && Array.isArray(stackTrace)) {
       const stackStrings = stackTrace.map((stackTraceItem) => {
         let methodName = '-';
         let lineNumber = '-';
@@ -222,8 +222,6 @@ class DebugService {
         return `Method: ${methodName}, LineNumber: ${lineNumber}, Column: ${column}\n`;
       });
       errorString += stackStrings.join('\n');
-      console.log(errorString);
-
     }
     if (fatal) {
       return this._log('RNFatal', 'rgb(255, 0, 0)', errorString);
