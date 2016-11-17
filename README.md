@@ -1,8 +1,18 @@
 #react-native-device-log
 
+###Description
 A debug-view that prints your debug-messages in a neat listview.
-Supports different levels of log-messages, support complex data.
-Also has a built in timer for measuring performance.
+Supports different levels of log-messages, complex data (With pretty printing), timers for measuring perf and much more.
+Adheres to a simple, async, protocol for saving messages where you can plug in your own adapter, or
+use AsyncStorage from React Native to persist log-messages between session. (Or just use simple session in-memory storage).
+
+Also tracks Connectivity of Device and App-State-changes (Background, Idle, Active).
+
+Will also, if you choose to (flag), track exceptions in your app and in React Native and log linenumbers and methods
+so you can track crashes in production.
+
+Configure how many messages that should be rendered in the ListView and how many messages should be persisted.
+All built to be efficent and fast.
 
 <a href="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif"><img src="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif" width="350"></a>
 
