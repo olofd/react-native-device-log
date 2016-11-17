@@ -6,7 +6,7 @@
     "ios",
     "android"
   ],
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A GUI and service for handling development log messages on a device",
   "main": "index.js",
   "repository": {
