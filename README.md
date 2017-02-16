@@ -24,11 +24,10 @@ npm install react-native-device-log --save
 #Example:
 ```
 /**
- * Sample React Native App
+ * Sample React Native App width react-native-device-log
  * https://github.com/facebook/react-native
  */
-'use strict';
-import React from 'react';
+import React, { Component } from 'react';
 import  {
   AppRegistry,
   StyleSheet,
@@ -64,9 +63,9 @@ deviceLog.init(AsyncStorage /* You can send new InMemoryAdapter() if you do not 
 //The device-log contains a timer for measuring performance:
 deviceLog.startTimer('start-up');
 
-var AwesomeProject = React.createClass({
+class AwesomeProject extends Component {
 
-  componentDidMount : function(){
+  componentDidMount() {
     //Print the current time of the above timer:
     deviceLog.logTime('start-up');
 
@@ -86,9 +85,9 @@ var AwesomeProject = React.createClass({
     setTimeout(() => {
       deviceLog.error("I'm late!!");
     }, 3000);
-  },
+  }
 
-  render: function() {
+  render() {
     /*
     inverted: will write the log inverted.
     multiExpanded: means that multiple logmessages
@@ -99,7 +98,7 @@ var AwesomeProject = React.createClass({
       <LogView inverted={false} multiExpanded={true} timeStampFormat='HH:mm:ss'></LogView>
     );
   }
-});
+}
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 ```

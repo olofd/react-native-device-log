@@ -247,7 +247,7 @@ export default class Debug extends React.Component {
         <View style={styles.listContainer}>
           <ListView
             renderSeparator={this._renderSeparator.bind(this)}
-            keyboardShouldPersistTaps={true}
+            keyboardShouldPersistTaps="always"
             automaticallyAdjustContentInsets={false}
             initialListSize={20}
             pageSize={20}
