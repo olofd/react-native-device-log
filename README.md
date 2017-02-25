@@ -22,7 +22,7 @@ All built to be efficent and fast.
 npm install react-native-device-log --save
 ```
 #Example:
-```
+```js
 /**
  * Sample React Native App width react-native-device-log
  * https://github.com/facebook/react-native
