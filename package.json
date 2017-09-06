@@ -1,28 +1,23 @@
 {
-  "name": "react-native-device-log",
-  "keywords": [
-    "react-component",
-    "react-native",
-    "ios",
-    "android"
-  ],
-  "version": "0.0.17",
-  "description": "A GUI and service for handling development log messages on a device",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/olofd/react-native-device-log.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Olof Dahlbom",
-  "license": "MIT",
-  "dependencies": {
-    "json-stringify-safe": "^5.0.1",
-    "react-native-invertible-scroll-view": "^1.0.0",
-    "moment": "^2.11.2",
-    "debounce": "^1.0.0",
-    "stacktrace-parser": "^0.1.4"
-  }
+    "name": "react-native-device-log",
+    "keywords": ["react-component", "react-native", "ios", "android"],
+    "version": "0.0.17",
+    "description": "A GUI and service for handling development log messages on a device",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/olofd/react-native-device-log.git"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Olof Dahlbom",
+    "license": "MIT",
+    "dependencies": {
+        "json-stringify-safe": "^5.0.1",
+        "react-native-invertible-scroll-view": "^1.0.0",
+        "moment": "^2.11.2",
+        "debounce": "^1.0.0",
+        "stacktrace-parser": "^0.1.4"
+    }
 }
