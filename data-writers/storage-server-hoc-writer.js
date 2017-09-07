@@ -7,10 +7,14 @@ export default class StorageServerHocWriter {
     constructor(writer, options) {
         this.writer = writer || new StringifyDataWriter(AsyncStorage);
         this.options = {
+            serverUrl: null,
+            getExtraData: () => null,
+            modifyRowBeforeSend: null,
             appendToLogRow: logRow => logRow,
             skipSendingMessagesOlderThen: null,
             sendInterval: 10000,
             batchSize: 30,
+            isDebug: true,
         };
         this.options = { ...this.options, ...options };
         this.sentToServerRows = null;
@@ -58,6 +62,7 @@ export default class StorageServerHocWriter {
         await AsyncStorage.removeItem(
             StorageServerHocWriter.SERVER_SEND_STORAGE_KEY
         );
+        this.sendQueue = [];
         this.sentToServerRows = [];
         await this.writer.clear();
     }
@@ -73,15 +78,17 @@ export default class StorageServerHocWriter {
         return logRows;
     }
 
-    appendToLogRow(logRow) {
-        return this.options.appendToLogRow(logRow);
-    }
-
     async sendToServerLoop() {
-        if (!this.initalSendToServerPromise) {
+        if (!this.initalSendToServerPromise && this.options.sendInterval) {
             try {
-                this.initalSendToServerPromise = await this.sendToServer();
+                this.initalSendToServerPromise = await this.sendToServer(
+                    this.options.batchSize
+                );
             } catch (err) {
+                this.log(
+                    "[StorageServerHocWriter] error while sending clientLog to server",
+                    err
+                );
             } finally {
                 setTimeout(() => {
                     this.sendToServerLoop();
@@ -90,29 +97,49 @@ export default class StorageServerHocWriter {
         }
     }
 
-    async sendAllMessagesToServer() {}
+    async sendAllMessagesToServer() {
+        await this.initPromise;
+        await this.initalRowFetchPromise;
+        await this.sendToServer(this.sendQueue.length);
+    }
 
-    async sendToServer() {
-        const { rowsToSend, sentToServerRows } = await this.getPostData();
+    async sendToServer(batchSize) {
+        const { rowsToSend, sentToServerRows } = await this.getPostData(
+            batchSize
+        );
+        if (!this.options.serverUrl) {
+            throw new Error(
+                "You need to supply an serverUrl option to StorageServerHocWriter"
+            );
+        }
         if (rowsToSend && rowsToSend.length) {
             try {
-                console.log(`Sending ${rowsToSend.length} log-rows to server`);
+                const data = {
+                    rows: this.options.modifyRowBeforeSend
+                        ? rowsToSend.map(row =>
+                              this.options.modifyRowBeforeSend(row)
+                          )
+                        : rowsToSend,
+                    extraData: this.options.getExtraData(),
+                };
+                this.log(`Sending ${rowsToSend.length} log-rows to server`);
+
                 const response = await fetch(this.options.serverUrl, {
                     method: "POST",
-                    body: JSON.stringify(rowsToSend),
+                    body: this.options.serializeData
+                        ? this.options.serializeData(data)
+                        : JSON.stringify(data),
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
                 });
                 if (!response.ok) {
-                    console.log(response);
+                    this.log(response);
                     throw new Error("Failed sending logRows to server");
                 }
                 sentToServerRows.forEach(row => (row.success = true));
                 rowsToSend.forEach(row => this.removeFromSendQueue(row));
-            } catch (err) {
-                throw err;
             } finally {
                 await this.setSentToServerRows(this.sentToServerRows);
             }
@@ -126,9 +153,9 @@ export default class StorageServerHocWriter {
         }
     }
 
-    getPostData() {
+    getPostData(batchSize) {
         if (this.sendQueue && this.sendQueue.length) {
-            const rowsToSend = this.sendQueue.slice(0, this.options.batchSize);
+            const rowsToSend = this.sendQueue.slice(0, batchSize);
             if (rowsToSend && rowsToSend.length) {
                 let sentToServerRows = rowsToSend.map(rowToSend => {
                     let sentToServerRow = this.sentToServerRows.find(
@@ -164,16 +191,19 @@ export default class StorageServerHocWriter {
         if (!foundRow) {
             return true;
         }
-        const minutesSinceSent = moment
-            .duration(moment().diff(foundRow.sendTimeStamp))
-            .asMinutes();
-        return !foundRow.success && minutesSinceSent > 3;
+        return !foundRow.success;
     }
 
     addToQueue(logRows) {
         if (logRows && logRows.length) {
             this.sendQueue = this.sendQueue || [];
             this.sendQueue = this.sendQueue.concat(logRows);
+        }
+    }
+
+    log(...args) {
+        if (this.options.isDebug) {
+            console.log.apply(console, args);
         }
     }
 

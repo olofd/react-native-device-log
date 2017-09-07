@@ -278,9 +278,9 @@ class DebugService {
             timeStamp: moment(),
             color,
         }));
-        if (this.store.appendToLogRow) {
+        if (this.options.appendToLogRow) {
             formattedRows = formattedRows.map(logRow =>
-                this.store.appendToLogRow(logRow)
+                this.options.appendToLogRow(logRow)
             );
         }
 
