@@ -31,6 +31,7 @@ export default class StorageServerHocWriter {
     //Required
     async getRows() {
         if (!this.initalRowFetchPromise) {
+            await this.initPromise;
             this.initalRowFetchPromise = this.writer.getRows();
             const logRows = await this.initalRowFetchPromise;
             await this.filterRemoved(logRows);
@@ -191,17 +192,14 @@ export default class StorageServerHocWriter {
         const foundRow = sentToServerRows.find(
             serverRow => serverRow.id === logRow.id
         );
-
-        if (!foundRow) {
-            return true;
-        }
-        return !foundRow.success;
+        const shouldAddToQueue = !foundRow || !foundRow.success;
+        return shouldAddToQueue;
     }
 
     includedLevel(logRow) {
         return (
-            this.options.sendLevels.indexOf(logRow.level) !== -1 ||
-            this.options.sendLevels.indexOf("all") !== -1
+            this.options.sendLevels.indexOf("all") !== -1 ||
+            this.options.sendLevels.indexOf(logRow.level) !== -1
         );
     }
 
