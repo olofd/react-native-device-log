@@ -54,24 +54,34 @@ class DebugService {
             this._handleAppStateChange.bind(this)
         );
         NetInfo.addEventListener(
-            "change",
+            "connectionChange",
             this._handleConnectivityTypeChange.bind(this)
         );
     }
 
-    _handleConnectivityTypeChange(type) {
-        if (this.connectionHasBeenEstablished) {
-            if (type === "none") {
-                this.hasBeenDisconnected = true;
-                this.seperator(`DISCONNECTED FROM INTERNET`);
+    _handleConnectivityTypeChange(connectionInfo) {
+        let { type, effectiveType } = connectionInfo;
+        if (type === "none") {
+            this.hasBeenDisconnected = true;
+            this.seperator(`DISCONNECTED FROM INTERNET`);
+        } else {
+            const buildConnectionString = () => {
+                return `${type.toUpperCase()}${effectiveType === "unknown"
+                    ? ""
+                    : ` - ${effectiveType}`}`;
+            };
+            if (this.hasBeenDisconnected) {
+                this.seperator(
+                    `[NETINFO] RECONNECTED TO ${buildConnectionString()}`
+                );
             } else {
-                if (this.hasBeenDisconnected) {
+                if (this.connectionHasBeenEstablished) {
                     this.seperator(
-                        `RECONNECTED TO INTERNET VIA: ${type.toUpperCase()}`
+                        `[NETINFO] CHANGED TO ${buildConnectionString()}`
                     );
                 } else {
                     this.seperator(
-                        `CONNECTION CHANGED TO ${type.toUpperCase()}`
+                        `[NETINFO] CONNECTION TO ${buildConnectionString()}`
                     );
                 }
             }
