@@ -134,6 +134,9 @@ class DebugService {
     }
 
     async insertStoreRows(rows) {
+        if (this.store.readOnly) {
+            return;
+        }
         this.rowsToInsert = this.rowsToInsert || [];
         this.rowsToInsert = this.rowsToInsert.concat(rows);
         if (!this.debouncedInsert) {

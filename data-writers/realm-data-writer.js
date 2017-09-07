@@ -21,13 +21,12 @@ export default class RealmDataWriter {
         this._readOnly = readOnly;
     }
 
-    async insertRows(rows) {
+    async insertRows(rows, allRows) {
         if (this._readOnly) {
             return rows;
         }
         return await new Promise((resolve, reject) => {
             this.realm.write(() => {
-                console.log(rows);
                 rows.map(row => {
                     this.realm.create("LogRow", {
                         ...row,

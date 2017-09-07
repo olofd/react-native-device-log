@@ -40,6 +40,9 @@ export default class StorageServerHocWriter {
     }
 
     async insertRows(logRows = [], allRows) {
+        if (this.readOnly) {
+            return logRows;
+        }
         const rows = await this.writer.insertRows(logRows, allRows);
         await this.initPromise;
         this.addToQueue(
@@ -55,10 +58,9 @@ export default class StorageServerHocWriter {
         await AsyncStorage.removeItem(
             StorageServerHocWriter.SERVER_SEND_STORAGE_KEY
         );
+        this.sentToServerRows = [];
         await this.writer.clear();
     }
-
-    async logRowCreated(logRow) {}
 
     async filterRemoved(logRows) {
         await this.initPromise;
@@ -94,6 +96,7 @@ export default class StorageServerHocWriter {
         const { rowsToSend, sentToServerRows } = await this.getPostData();
         if (rowsToSend && rowsToSend.length) {
             try {
+                console.log(`Sending ${rowsToSend.length} log-rows to server`);
                 const response = await fetch(this.options.serverUrl, {
                     method: "POST",
                     body: JSON.stringify(rowsToSend),
