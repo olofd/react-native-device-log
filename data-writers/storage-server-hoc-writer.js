@@ -15,6 +15,7 @@ export default class StorageServerHocWriter {
             sendInterval: 10000,
             batchSize: 30,
             isDebug: true,
+            sendLevels: ["all"],
         };
         this.options = { ...this.options, ...options };
         this.sentToServerRows = null;
@@ -184,6 +185,9 @@ export default class StorageServerHocWriter {
         ) {
             return false;
         }
+        if (!this.includedLevel(logRow)) {
+            return false;
+        }
         const foundRow = sentToServerRows.find(
             serverRow => serverRow.id === logRow.id
         );
@@ -192,6 +196,13 @@ export default class StorageServerHocWriter {
             return true;
         }
         return !foundRow.success;
+    }
+
+    includedLevel(logRow) {
+        return (
+            this.options.sendLevels.indexOf(logRow.level) !== -1 ||
+            this.options.sendLevels.indexOf("all") !== -1
+        );
     }
 
     addToQueue(logRows) {
