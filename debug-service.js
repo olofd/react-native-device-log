@@ -7,6 +7,7 @@ import stacktraceParser from "stacktrace-parser";
 import stringify from "json-stringify-safe";
 import StringifyDataWriter from "./data-writers/stringify-data-writer";
 import guid from "./guid";
+import colors from "./colors";
 
 const APP_START_LOG_MESSAGE = {
     id: guid(),
@@ -18,7 +19,11 @@ const APP_START_LOG_MESSAGE = {
 };
 
 class DebugService {
-    constructor() {
+    constructor(options) {
+        options = options || {};
+        options.colors = options.colors || {};
+        options.colors = { ...colors, ...options.colors };
+
         this.logRows = [];
         this.store = new StringifyDataWriter(new InMemory());
         this.listners = [];
@@ -30,6 +35,7 @@ class DebugService {
             rowInsertDebounceMs: 200,
             logAppState: true,
             logConnection: true,
+            ...options,
         };
     }
 
@@ -90,7 +96,10 @@ class DebugService {
         }
     }
 
-    async init(storageAdapter, options) {
+    async init(storageAdapter, options = {}) {
+        options.colors = options.colors || {};
+        options.colors = { ...colors, ...options.colors };
+
         this.options = {
             ...this.options,
             ...options,
@@ -190,14 +199,14 @@ class DebugService {
 
     async startTimer(name) {
         let timer = timers.start(name);
-        return await this._log("start-timer", "#54d7df", name);
+        return await this._log("start-timer", undefined, name);
     }
 
     async logTime(name) {
         let timer = timers.stop(name);
         return await this._log(
             "end-timer",
-            "#54d7df",
+            undefined,
             `${name}-timer delta:  ${timer.delta}ms`
         );
     }
@@ -209,27 +218,27 @@ class DebugService {
     }
 
     log(...logRows) {
-        return this._log("log", "#FFF", ...logRows);
+        return this._log("log", undefined, ...logRows);
     }
 
     debug(...logRows) {
-        return this._log("debug", "#5787cf", ...logRows);
+        return this._log("debug", undefined, ...logRows);
     }
 
     info(...logRows) {
-        return this._log("info", "#7fa9db", ...logRows);
+        return this._log("info", undefined, ...logRows);
     }
 
     error(...logRows) {
-        return this._log("error", "#df5454", ...logRows);
+        return this._log("error", undefined, ...logRows);
     }
 
     fatal(...logRows) {
-        return this._log("fatal", "rgb(255, 0, 0)", ...logRows);
+        return this._log("fatal", undefined, ...logRows);
     }
 
     success(...logRows) {
-        return this._log("success", "#54df72", ...logRows);
+        return this._log("success", undefined, ...logRows);
     }
 
     rnerror(fatal, message, stackTrace) {
@@ -256,17 +265,27 @@ class DebugService {
             errorString += stackStrings.join("\n");
         }
         if (fatal) {
-            return this._log("RNFatal", "rgb(255, 0, 0)", errorString);
+            return this._log("RNFatal", undefined, errorString);
         } else {
-            return this._log("RNError", "#df5454", errorString);
+            return this._log("RNError", undefined, errorString);
         }
     }
 
     seperator(name) {
-        return this._log("seperator", "#FFF", name);
+        return this._log("seperator", undefined, name);
     }
 
-    async _log(level, color, ...logRows) {
+    getColorForLogLevel(level) {
+        return this.options.colors[level] || "#fff";
+    }
+
+    async _log(level, options, ...logRows) {
+        let color = this.getColorForLogLevel(level);
+        if (options) {
+            if (options.color) {
+                color = options.color;
+            }
+        }
         this.logToConsole(level, color, ...logRows);
         let formattedRows = logRows.map((logRow, idx) => ({
             id: guid(),
