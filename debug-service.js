@@ -360,7 +360,7 @@ class DebugService {
         if (this.options.maxNumberToRender !== 0) {
             return rows.slice(0, this.options.maxNumberToRender);
         }
-        return data;
+        return rows;
     }
 }
 
