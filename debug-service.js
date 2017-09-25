@@ -326,7 +326,7 @@ class DebugService {
             return data;
         } else {
             let dataAsString = stringify(data, null, "  "); //FYI: spaces > tabs
-            if (dataAsString.length > 12000) {
+            if (dataAsString && dataAsString.length > 12000) {
                 dataAsString =
                     dataAsString.substring(0, 12000) +
                     "...(Cannot display more RN-device-log)";
@@ -360,7 +360,7 @@ class DebugService {
         if (this.options.maxNumberToRender !== 0) {
             return rows.slice(0, this.options.maxNumberToRender);
         }
-        return data;
+        return rows;
     }
 }
 
