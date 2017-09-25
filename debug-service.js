@@ -6,27 +6,8 @@ import debounce from "debounce";
 import stacktraceParser from "stacktrace-parser";
 import stringify from "json-stringify-safe";
 import StringifyDataWriter from "./data-writers/stringify-data-writer";
-function guid() {
-    function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-    }
-    return (
-        s4() +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        "-" +
-        s4() +
-        s4() +
-        s4()
-    );
-}
+import guid from "./guid";
+
 const APP_START_LOG_MESSAGE = {
     id: guid(),
     lengthAtInsertion: 0,
@@ -38,7 +19,6 @@ const APP_START_LOG_MESSAGE = {
 
 class DebugService {
     constructor() {
-        this.previousConnectionTypes = [];
         this.logRows = [];
         this.store = new StringifyDataWriter(new InMemory());
         this.listners = [];
@@ -48,15 +28,9 @@ class DebugService {
             maxNumberToRender: 0,
             maxNumberToPersist: 0,
             rowInsertDebounceMs: 200,
+            logAppState: true,
+            logConnection: true,
         };
-        AppState.addEventListener(
-            "change",
-            this._handleAppStateChange.bind(this)
-        );
-        NetInfo.addEventListener(
-            "connectionChange",
-            this._handleConnectivityTypeChange.bind(this)
-        );
     }
 
     _handleConnectivityTypeChange(connectionInfo) {
@@ -117,11 +91,11 @@ class DebugService {
     }
 
     async init(storageAdapter, options) {
-        //this.clear();
         this.options = {
             ...this.options,
             ...options,
         };
+
         if (this.options.customDataWriter) {
             this.store = this.options.customDataWriter;
         } else {
@@ -129,9 +103,23 @@ class DebugService {
                 storageAdapter || new InMemory()
             );
         }
+
+        if (this.options.logAppState) {
+            AppState.addEventListener(
+                "change",
+                this._handleAppStateChange.bind(this)
+            );
+        }
+        if (this.options.logConnection) {
+            NetInfo.addEventListener(
+                "connectionChange",
+                this._handleConnectivityTypeChange.bind(this)
+            );
+        }
         if (this.options.logRNErrors) {
             this.setupRNErrorLogging();
         }
+
         this._initalGet();
         return this.insertAppStartMessage();
     }

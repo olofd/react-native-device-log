@@ -241,11 +241,7 @@ export default class Debug extends React.Component {
         }
     }
 
-    _renderSeparator(
-        sectionID: number,
-        rowID: number,
-        adjacentRowHighlighted: boolean
-    ) {
+    _renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
         return (
             <View
                 key={`${sectionID}-${rowID}`}
@@ -293,11 +289,12 @@ export default class Debug extends React.Component {
                         automaticallyAdjustContentInsets={false}
                         initialListSize={20}
                         pageSize={20}
-                        renderScrollComponent={props =>
+                        renderScrollComponent={props => (
                             <InvertibleScrollView
                                 {...props}
                                 inverted={this.props.inverted}
-                            />}
+                            />
+                        )}
                         enableEmptySections={true}
                         ref={LISTVIEW_REF}
                         dataSource={this.state.dataSource}
