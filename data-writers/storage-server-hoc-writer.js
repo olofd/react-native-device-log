@@ -125,7 +125,6 @@ export default class StorageServerHocWriter {
                     extraData: this.options.getExtraData(),
                 };
                 this.log(`Sending ${rowsToSend.length} log-rows to server`);
-
                 const response = await fetch(this.options.serverUrl, {
                     method: "POST",
                     body: this.options.serializeData
@@ -142,10 +141,12 @@ export default class StorageServerHocWriter {
                 }
                 sentToServerRows.forEach(row => (row.success = true));
                 rowsToSend.forEach(row => this.removeFromSendQueue(row));
+                return rowsToSend;
             } finally {
                 await this.setSentToServerRows(this.sentToServerRows);
             }
         }
+        return [];
     }
 
     removeFromSendQueue(row) {
