@@ -1,6 +1,6 @@
-#react-native-device-log
+# react-native-device-log
 
-###Description
+### Description
 A debug-view that prints your debug-messages in a neat listview.
 Supports different levels of log-messages, complex data (With pretty printing), timers for measuring perf and much more.
 Adheres to a simple, async, protocol for saving messages where you can plug in your own adapter, or
@@ -17,11 +17,11 @@ All built to be efficent and fast.
 <a href="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif"><img src="https://dl.dropboxusercontent.com/u/12645300/Screenshots/react-native-device-log.gif" width="350"></a>
 
 
-#Install:
+# Install:
 ```
 npm install react-native-device-log --save
 ```
-#Example:
+# Example:
 ```js
 /**
  * Sample React Native App width react-native-device-log
