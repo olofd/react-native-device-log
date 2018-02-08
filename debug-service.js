@@ -28,7 +28,9 @@ class DebugService {
         this.store = new StringifyDataWriter(new InMemory());
         this.listners = [];
         this.options = {
-            logToConsole: true,
+            logToConsole: false,
+            logToConsoleMethod : 'match',
+            logToConsoleFunc : undefined,
             logRNErrors: false,
             maxNumberToRender: 0,
             maxNumberToPersist: 0,
@@ -321,10 +323,19 @@ class DebugService {
                     disabledLevel => disabledLevel === level
                 ))
         ) {
-            let avaliableConsoleLogs = ["log", "info", "debug", "error"];
-            let consoleLogFunc =
-                avaliableConsoleLogs.find(avCL => avCL === level) || "log";
-            console[consoleLogFunc](...logRows);
+            if(this.options.logToConsoleFunc) {
+                this.options.logToConsoleFunc(level, color, logRows)
+            }else {
+                if(this.options.logToConsoleMethod === 'match') {
+                    let avaliableConsoleLogs = ["log", "info", "debug", "error"];
+                    let consoleLogFunc =
+                        avaliableConsoleLogs.find(avCL => avCL === level) || "log";
+                    console[consoleLogFunc](...logRows);
+                }else {
+                    console[this.options.logToConsoleMethod](...logRows);
+                }
+            }
+   
         }
     }
 

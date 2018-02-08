@@ -1,7 +1,7 @@
 export default {
     "start-timer": "#54d7df",
     "end-timer": "#54d7df",
-    log: "#ffffff",
+    log: "#afafaf",
     debug: "#5787cf",
     info: "#7fa9db",
     error: "#df5454",
