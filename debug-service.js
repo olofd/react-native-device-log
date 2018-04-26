@@ -54,16 +54,16 @@ class DebugService {
             };
             if (this.hasBeenDisconnected) {
                 this.seperator(
-                    `[NETINFO] RECONNECTED TO ${buildConnectionString()}`
+                    type ? `[NETINFO] RECONNECTED TO ${buildConnectionString()}` : `[NETINFO] RECONNECTED`
                 );
             } else {
                 if (this.connectionHasBeenEstablished) {
                     this.seperator(
-                        `[NETINFO] CHANGED TO ${buildConnectionString()}`
+                        type ? `[NETINFO] CHANGED TO ${buildConnectionString()}` : `[NETINFO] CHANGED`
                     );
                 } else {
                     this.seperator(
-                        `[NETINFO] CONNECTION TO ${buildConnectionString()}`
+                        type ? `[NETINFO] CONNECTION TO ${buildConnectionString()}` : `[NETINFO] CONNECTION`
                     );
                 }
             }
