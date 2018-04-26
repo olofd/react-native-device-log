@@ -53,30 +53,18 @@ class DebugService {
                     : ` - ${effectiveType}`}`;
             };
             if (this.hasBeenDisconnected) {
-                type
-                    ? this.seperator(
-                        `[NETINFO] RECONNECTED TO ${buildConnectionString()}`
-                    );
-                    : this.seperator(
-                        `[NETINFO] RECONNECTED`
-                    );
+                this.seperator(
+                    type ? `[NETINFO] RECONNECTED TO ${buildConnectionString()}` : `[NETINFO] RECONNECTED`
+                );
             } else {
                 if (this.connectionHasBeenEstablished) {
-                    type
-                        ? this.seperator(
-                            `[NETINFO] CHANGED TO ${buildConnectionString()}`
-                        );
-                        : this.seperator(
-                            `[NETINFO] CHANGED`
-                        );
+                    this.seperator(
+                        type ? `[NETINFO] CHANGED TO ${buildConnectionString()}` : `[NETINFO] CHANGED`
+                    );
                 } else {
-                    type
-                        ? this.seperator(
-                            `[NETINFO] CONNECTION TO ${buildConnectionString()}`
-                        );
-                        : this.seperator(
-                            `[NETINFO] CONNECTION`
-                        );
+                    this.seperator(
+                        type ? `[NETINFO] CONNECTION TO ${buildConnectionString()}` : `[NETINFO] CONNECTION`
+                    );
                 }
             }
         }
