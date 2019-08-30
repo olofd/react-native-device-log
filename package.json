@@ -6,7 +6,7 @@
     "ios",
     "android"
   ],
-  "version": "1.0.2",
+  "version": "2.0.1",
   "description": "A GUI and service for handling development log messages on a device",
   "main": "index.js",
   "repository": {
@@ -19,6 +19,7 @@
   "author": "Olof Dahlbom",
   "license": "MIT",
   "dependencies": {
+    "@react-native-community/netinfo": "^4.0.0",
     "json-stringify-safe": "^5.0.1",
     "react-native-invertible-scroll-view": "^1.1.0",
     "moment": "^2.18.1",

@@ -1,4 +1,5 @@
-import { AsyncStorage, AppState, NetInfo } from "react-native";
+import NetInfo from '@react-native-community/netinfo'
+import { AsyncStorage, AppState } from "react-native";
 import moment from "moment";
 import InMemory from "./adapters/in-memory";
 import timers from "./timers";
@@ -335,7 +336,7 @@ class DebugService {
                     console[this.options.logToConsoleMethod](...logRows);
                 }
             }
-   
+
         }
     }
 
