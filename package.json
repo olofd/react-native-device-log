@@ -11,7 +11,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/olofd/react-native-device-log.git"
+    "url": "git+https://github.com/sahildhussain/react-native-device-log.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
