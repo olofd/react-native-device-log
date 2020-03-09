@@ -26,18 +26,9 @@ const LISTVIEW_REF = "listview";
 export default class Debug extends React.Component {
     constructor() {
         super();
-        let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => {
-                let rowHasChanged = r1.id !== r2.id;
-                if (r1.expanded !== r2.expanded) {
-                    return true;
-                }
-                return rowHasChanged;
-            },
-        });
         this.preparedRows = { blob: {} };
         this.state = {
-            dataSource: ds.cloneWithRows([]),
+            dataSource: [],
             paused: false,
             rows: [],
         };
