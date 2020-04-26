@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": false,
+    "strict": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "jsx": "react-native",
+    "esModuleInterop": true,
+    "outDir": "./lib"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

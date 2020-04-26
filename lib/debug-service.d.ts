@@ -1,0 +1,66 @@
+import { NetInfoState } from '@react-native-community/netinfo';
+import LogRow from './LogRow';
+import BaseDataWriter from './data-writers/BaseDataWriter';
+declare type Options = {
+    color?: string;
+    colors?: any;
+};
+interface DebugServiceOptions {
+    colors?: any;
+    logToConsole?: boolean;
+    logToConsoleMethod?: string;
+    logToConsoleFunc?: Function;
+    logRNErrors?: boolean;
+    maxNumberToRender?: number;
+    maxNumberToPersist?: number;
+    rowInsertDebounceMs?: number;
+    logAppState?: boolean;
+    logConnection?: boolean;
+    disableLevelToConsole?: string[];
+    appendToLogRow?: Function;
+    customDataWriter?: BaseDataWriter;
+}
+declare class DebugService {
+    logRows: LogRow[];
+    store: BaseDataWriter;
+    options: DebugServiceOptions;
+    listners: Function[];
+    initPromise?: Promise<LogRow[]>;
+    debouncedInsert?: Function;
+    rowsToInsert?: LogRow[];
+    appStartRendered: boolean;
+    connectionHasBeenEstablished: boolean;
+    hasBeenDisconnected: boolean;
+    constructor(options?: DebugServiceOptions);
+    _handleConnectivityTypeChange(connectionInfo: NetInfoState): void;
+    _handleAppStateChange(currentAppState: string): void;
+    setupRNErrorLogging(): void;
+    init(storageAdapter: any, options: DebugServiceOptions): Promise<void>;
+    insertAppStartMessage(): Promise<void>;
+    insertStoreRows(rows: LogRow[]): Promise<void>;
+    _initalGet(): Promise<void>;
+    sortLogRows(): void;
+    _getAndEmit(): Promise<void>;
+    stopTimer(name: string): void;
+    startTimer(name: string): Promise<void>;
+    logTime(name: string): Promise<void>;
+    clear(): Promise<void>;
+    log(...logRows: string[]): Promise<void>;
+    debug(...logRows: string[]): Promise<void>;
+    info(...logRows: string[]): Promise<void>;
+    error(...logRows: string[]): Promise<void>;
+    fatal(...logRows: string[]): Promise<void>;
+    success(...logRows: string[]): Promise<void>;
+    rnerror(fatal: boolean, message: string, stackTrace: any): Promise<void>;
+    seperator(name: string): Promise<void>;
+    getColorForLogLevel(level: string): any;
+    _log(level: string, options?: Options, ...logRows: string[]): Promise<void>;
+    logToConsole(level: string, color: string, ...logRows: string[]): void;
+    _parseDataToString(data: string | any): string;
+    _appendToLog(logRows: LogRow[]): Promise<void>;
+    onDebugRowsChanged(cb: Function): Function;
+    emitDebugRowsChanged(data: LogRow[]): void;
+    getEmittableData(rows: LogRow[]): LogRow[];
+}
+declare const _default: DebugService;
+export default _default;

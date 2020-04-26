@@ -6,24 +6,58 @@
     "ios",
     "android"
   ],
+  "files": [
+    "lib/**/*"
+  ],
   "version": "2.0.1",
   "description": "A GUI and service for handling development log messages on a device",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/olofd/react-native-device-log.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "author": "Olof Dahlbom",
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
+    "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/netinfo": "^4.0.0",
-    "json-stringify-safe": "^5.0.1",
-    "react-native-invertible-scroll-view": "^1.1.0",
-    "moment": "^2.18.1",
     "debounce": "^1.0.2",
+    "json-stringify-safe": "^5.0.1",
+    "moment": "^2.18.1",
+    "prop-types": "^15.7.2",
+    "stacktrace-parser": "^0.1.4",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-react": "^7.19.0",
+    "prettier": "^2.0.5",
+    "react": "^16.11.0",
+    "react-native": "^0.62.2",
+    "realm": "^5.0.3",
+    "typescript": "^3.8.3",
+    "@react-native-community/async-storage": "^1.9.0",
+    "@react-native-community/netinfo": "^4.0.0",
+    "debounce": "^1.0.2",
+    "json-stringify-safe": "^5.0.1",
+    "moment": "^2.18.1",
+    "prop-types": "^15.7.2",
     "stacktrace-parser": "^0.1.4"
   }
 }
